@@ -1,13 +1,22 @@
-// story-viewer.js - Dynamic Story Viewer
+// story-viewer.js - Dynamic Story Viewer with Progress Tracking
+
+const { ipcRenderer } = require('electron');
 
 let currentStory = null;
 let currentSegmentIndex = 0;
 let storyData = null;
+let currentUser = null;
 
 // Get story ID from URL parameters
 function getStoryIdFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
     return parseInt(urlParams.get('id')) || 1;
+}
+
+// Get current user
+function getCurrentUser() {
+    const userStr = localStorage.getItem('currentUser');
+    return userStr ? JSON.parse(userStr) : null;
 }
 
 // Load story data from JSON
@@ -28,8 +37,65 @@ async function loadStoryData(storyId) {
     }
 }
 
+// Load user's last position in this story
+async function loadLastPosition(userId, storyId) {
+    try {
+        const position = await ipcRenderer.invoke('progress:getPosition', {
+            userId: userId,
+            storyId: storyId
+        });
+        
+        if (position && position.current_segment) {
+            console.log('📖 Resuming from segment:', position.current_segment);
+            return position.current_segment - 1; // Convert to 0-indexed
+        }
+        
+        console.log('📖 Starting from beginning');
+        return 0; // Start from beginning
+    } catch (error) {
+        console.error('Error loading position:', error);
+        return 0;
+    }
+}
+
+// Save current position
+async function savePosition(userId, storyId, segmentIndex) {
+    try {
+        await ipcRenderer.invoke('progress:updatePosition', {
+            userId: userId,
+            storyId: storyId,
+            segmentId: segmentIndex + 1 // Convert from 0-indexed to 1-indexed
+        });
+        console.log('💾 Position saved: segment', segmentIndex + 1);
+    } catch (error) {
+        console.error('Error saving position:', error);
+    }
+}
+
+// Mark segment as completed
+async function markSegmentCompleted(userId, storyId, segmentIndex) {
+    try {
+        await ipcRenderer.invoke('progress:saveSegment', {
+            userId: userId,
+            storyId: storyId,
+            segmentId: segmentIndex + 1
+        });
+        console.log('✅ Segment', segmentIndex + 1, 'marked as completed');
+    } catch (error) {
+        console.error('Error marking segment complete:', error);
+    }
+}
+
 // Initialize story viewer
 async function initStoryViewer() {
+    // Get current user
+    currentUser = getCurrentUser();
+    if (!currentUser) {
+        alert('Please login to read stories');
+        window.location.href = '../auth/login.html';
+        return;
+    }
+    
     const storyId = getStoryIdFromUrl();
     console.log('Loading story ID:', storyId);
     
@@ -37,7 +103,6 @@ async function initStoryViewer() {
     if (!story) return;
     
     currentStory = story;
-    currentSegmentIndex = 0;
     
     // Update page title
     document.title = story.title + ' - VocabVenture';
@@ -45,12 +110,70 @@ async function initStoryViewer() {
     // Update total segments display
     document.getElementById('totalSegments').textContent = story.totalSegments;
     
-    // Load first segment
-    loadSegment(0);
+    // Load user's last position
+    const lastPosition = await loadLastPosition(currentUser.id, storyId);
+    currentSegmentIndex = lastPosition;
+    
+    // Show resume notification if not starting from beginning
+    if (lastPosition > 0) {
+        showResumeNotification(lastPosition + 1);
+    }
+    
+    // Load segment
+    loadSegment(currentSegmentIndex);
     
     // Setup navigation buttons
     setupNavigation();
+    
+    // Auto-save position periodically
+    setInterval(() => {
+        if (currentUser && currentStory) {
+            savePosition(currentUser.id, getStoryIdFromUrl(), currentSegmentIndex);
+        }
+    }, 10000); // Save every 10 seconds
 }
+
+// Show resume notification
+function showResumeNotification(segmentNumber) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 120px;
+        right: 30px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px 20px;
+        border-radius: 15px;
+        border: 2px solid #4ade80;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 1000;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 700;
+        color: #166534;
+        animation: slideIn 0.5s ease;
+    `;
+    notification.innerHTML = `
+        📖 Resuming from Segment ${segmentNumber}
+        <div style="font-size: 0.9rem; font-weight: 400; margin-top: 5px; color: #15803d;">
+            <button onclick="restartStory()" style="background: transparent; border: none; color: #15803d; text-decoration: underline; cursor: pointer; font-weight: 600;">
+                Start from beginning
+            </button>
+        </div>
+    `;
+    document.body.appendChild(notification);
+    
+    // Remove after 5 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.5s ease';
+        setTimeout(() => notification.remove(), 500);
+    }, 5000);
+}
+
+// Restart story from beginning
+window.restartStory = function() {
+    currentSegmentIndex = 0;
+    loadSegment(0);
+    savePosition(currentUser.id, getStoryIdFromUrl(), 0);
+};
 
 // Load a specific segment
 function loadSegment(index) {
@@ -84,6 +207,14 @@ function loadSegment(index) {
     // Play audio if sound is enabled
     if (audioPath && localStorage.getItem('sound_enabled') !== 'false') {
         playSegmentAudio(audioPath);
+    }
+    
+    // Save position
+    savePosition(currentUser.id, getStoryIdFromUrl(), index);
+    
+    // Mark previous segment as completed (if moving forward)
+    if (index > 0) {
+        markSegmentCompleted(currentUser.id, getStoryIdFromUrl(), index - 1);
     }
     
     // Update navigation buttons
@@ -139,7 +270,9 @@ function setupNavigation() {
         if (currentSegmentIndex < currentStory.segments.length - 1) {
             loadSegment(currentSegmentIndex + 1);
         } else {
-            // Story completed - show quiz or completion screen
+            // Mark final segment as completed
+            markSegmentCompleted(currentUser.id, getStoryIdFromUrl(), currentSegmentIndex);
+            // Story completed
             showCompletionScreen();
         }
     });
@@ -179,14 +312,16 @@ function updateNavigationButtons() {
 }
 
 // Show completion screen
-function showCompletionScreen() {
+async function showCompletionScreen() {
     alert(`Congratulations! You've completed "${currentStory.title}"!\n\nQuiz feature coming soon!`);
     
-    // TODO: Save progress to database
-    // TODO: Show quiz
+    // Clear position (story completed)
+    await savePosition(currentUser.id, getStoryIdFromUrl(), currentStory.segments.length);
+    
+    // TODO: Save quiz completion
     // TODO: Award badges
     
-    // For now, redirect to library
+    // Redirect to library
     setTimeout(() => {
         window.location.href = '../dashboard/library.html';
     }, 1000);
@@ -194,19 +329,16 @@ function showCompletionScreen() {
 
 // Listen for voice changes
 document.addEventListener('DOMContentLoaded', () => {
-    // Wait a bit for components to load
     setTimeout(() => {
         const boyVoice = document.getElementById('boyVoice');
         const girlVoice = document.getElementById('girlVoice');
         
         if (boyVoice && girlVoice) {
             boyVoice.addEventListener('click', () => {
-                // Reload current segment with new voice
                 loadSegment(currentSegmentIndex);
             });
             
             girlVoice.addEventListener('click', () => {
-                // Reload current segment with new voice
                 loadSegment(currentSegmentIndex);
             });
         }
@@ -215,3 +347,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Initialize when page loads
 window.addEventListener('DOMContentLoaded', initStoryViewer);
+
+// Save position before leaving page
+window.addEventListener('beforeunload', () => {
+    if (currentUser && currentStory) {
+        savePosition(currentUser.id, getStoryIdFromUrl(), currentSegmentIndex);
+    }
+});

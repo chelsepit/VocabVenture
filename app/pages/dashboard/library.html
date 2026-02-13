@@ -15,11 +15,11 @@
 </head>
 <body>
     <div class="components">
-    <div class="left-group">   
-        <div id="settings-container"></div>
-        <div id="burger-container"></div>
+        <div class="left-group">   
+            <div id="settings-container"></div>
+            <div id="burger-container"></div>
+        </div>
     </div>
-</div>
 
     <div class="library-container">
         <div class="library-header">
@@ -129,7 +129,6 @@
                     document.getElementById(elementId).innerHTML = data;
                     
                     // After HTML is inserted, initialize the Javascript for buttons
-                    // (This calls the function we defined in components.js)
                     if (window.initializeComponents) {
                         window.initializeComponents();
                     }
@@ -137,12 +136,12 @@
                 .catch(err => console.error('Error loading component:', err));
         }
 
-        // Load the files (Paths are relative to THIS file)
-        // We go up one level (..) to 'pages', then into 'components'
+        // Load the files
         loadComponent('settings-container', '../components/settings-menu.html');
         loadComponent('burger-container', '../components/burger-nav.html');
     </script>
 
+    <!-- NO STORIES-DATA HERE - REMOVED! -->
     <script src="../../js/components.js"></script>
     <script src="../../js/library.js"></script>
 </body>

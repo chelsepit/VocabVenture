@@ -32,7 +32,7 @@ class VocabVentureDB {
             )
         `);
 
-        // Create progress table
+        // Create progress table with current_segment tracking
         this.db.exec(`
             CREATE TABLE IF NOT EXISTS progress (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,6 +43,19 @@ class VocabVentureDB {
                 completed_at DATETIME,
                 FOREIGN KEY (user_id) REFERENCES users(id),
                 UNIQUE(user_id, story_id, segment_id)
+            )
+        `);
+
+        // NEW: Create story_position table to track current reading position
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS story_position (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER,
+                story_id INTEGER,
+                current_segment INTEGER DEFAULT 1,
+                last_accessed DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id),
+                UNIQUE(user_id, story_id)
             )
         `);
 
@@ -150,9 +163,67 @@ class VocabVentureDB {
     }
 
     // ============================================
-    // PROGRESS METHODS
+    // STORY POSITION METHODS (NEW!)
     // ============================================
     
+    /**
+     * Update the user's current position in a story
+     * @param {number} userId - User ID
+     * @param {number} storyId - Story ID
+     * @param {number} segmentId - Current segment they're viewing
+     */
+    updateStoryPosition(userId, storyId, segmentId) {
+        const stmt = this.db.prepare(`
+            INSERT INTO story_position (user_id, story_id, current_segment, last_accessed)
+            VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id, story_id) 
+            DO UPDATE SET 
+                current_segment = ?,
+                last_accessed = CURRENT_TIMESTAMP
+        `);
+        return stmt.run(userId, storyId, segmentId, segmentId);
+    }
+
+    /**
+     * Get the user's last position in a story
+     * @param {number} userId - User ID
+     * @param {number} storyId - Story ID
+     * @returns {object} Position data or null if never started
+     */
+    getStoryPosition(userId, storyId) {
+        const stmt = this.db.prepare(`
+            SELECT current_segment, last_accessed
+            FROM story_position
+            WHERE user_id = ? AND story_id = ?
+        `);
+        return stmt.get(userId, storyId);
+    }
+
+    /**
+     * Get all story positions for a user (for resume functionality)
+     * @param {number} userId - User ID
+     * @returns {array} Array of story positions
+     */
+    getAllStoryPositions(userId) {
+        const stmt = this.db.prepare(`
+            SELECT story_id, current_segment, last_accessed
+            FROM story_position
+            WHERE user_id = ?
+            ORDER BY last_accessed DESC
+        `);
+        return stmt.all(userId);
+    }
+
+    // ============================================
+    // PROGRESS METHODS (Updated)
+    // ============================================
+    
+    /**
+     * Mark a segment as completed
+     * @param {number} userId - User ID
+     * @param {number} storyId - Story ID
+     * @param {number} segmentId - Segment ID to mark complete
+     */
     saveProgress(userId, storyId, segmentId) {
         const stmt = this.db.prepare(`
             INSERT OR REPLACE INTO progress (user_id, story_id, segment_id, completed, completed_at)
@@ -161,6 +232,9 @@ class VocabVentureDB {
         return stmt.run(userId, storyId, segmentId);
     }
 
+    /**
+     * Get all progress for a specific story
+     */
     getProgress(userId, storyId) {
         const stmt = this.db.prepare(`
             SELECT * FROM progress 
@@ -170,6 +244,9 @@ class VocabVentureDB {
         return stmt.all(userId, storyId);
     }
 
+    /**
+     * Get story progress summary (completed segments count)
+     */
     getStoryProgress(userId, storyId) {
         const stmt = this.db.prepare(`
             SELECT 
@@ -181,6 +258,9 @@ class VocabVentureDB {
         return stmt.get(userId, storyId);
     }
 
+    /**
+     * Get all progress across all stories
+     */
     getAllProgress(userId) {
         const stmt = this.db.prepare(`
             SELECT 
@@ -193,6 +273,18 @@ class VocabVentureDB {
             GROUP BY story_id
         `);
         return stmt.all(userId);
+    }
+
+    /**
+     * Check if a specific segment is completed
+     */
+    isSegmentCompleted(userId, storyId, segmentId) {
+        const stmt = this.db.prepare(`
+            SELECT completed FROM progress
+            WHERE user_id = ? AND story_id = ? AND segment_id = ?
+        `);
+        const result = stmt.get(userId, storyId, segmentId);
+        return result ? result.completed === 1 : false;
     }
 
     // ============================================
@@ -277,7 +369,7 @@ class VocabVentureDB {
         const stmt = this.db.prepare(`
             SELECT 
                 COUNT(*) as completed_segments,
-                42 as total_segments
+                37 as total_segments
             FROM progress 
             WHERE user_id = ? AND completed = 1
         `);

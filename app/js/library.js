@@ -13,6 +13,8 @@ if (!currentUser) {
 // ============================================
 async function loadProgress() {
     try {
+        console.log('Loading progress for user:', currentUser.id);
+        
         // Get progress for each story
         for (let storyId = 1; storyId <= 3; storyId++) {
             const storyProgress = await ipcRenderer.invoke('progress:get', {
@@ -20,10 +22,16 @@ async function loadProgress() {
                 storyId: storyId
             });
             
-            // Calculate story progress (varies by story)
-            const totalSegments = getTotalSegments(storyId);
+            // Determine total segments based on story
+            let totalSegments = 14; // Default
+            if (storyId === 1) totalSegments = 13; // Story 1 has 13 segments
+            if (storyId === 3) totalSegments = 10; // Story 3 has 10 segments
+            
+            // Calculate story progress
             const completedSegments = storyProgress.filter(p => p.completed).length;
             const percentage = Math.round((completedSegments / totalSegments) * 100);
+            
+            console.log(`Story ${storyId}: ${completedSegments}/${totalSegments} = ${percentage}%`);
             
             // Update progress bars
             const progressBars = document.querySelectorAll(`[data-progress="${storyId}"]`);
@@ -34,16 +42,6 @@ async function loadProgress() {
     } catch (error) {
         console.error('Error loading progress:', error);
     }
-}
-
-// Get total segments for each story
-function getTotalSegments(storyId) {
-    const segments = {
-        1: 13, // Tinguian story
-        2: 14, // Bighari story
-        3: 10  // Butterfly story
-    };
-    return segments[storyId] || 14;
 }
 
 // Load progress on page load
@@ -66,7 +64,6 @@ genreTags.forEach(tag => {
         console.log('Selected genre:', genre);
         
         // TODO: Filter books by genre
-        // For now, just log it
     });
 });
 
@@ -95,7 +92,8 @@ if (searchInput && clearSearch) {
 }
 
 // ============================================
-// BOOK ITEM CLICK HANDLERS - UPDATED!
+// BOOK ITEM CLICK HANDLERS
+// Navigate to existing story pages
 // ============================================
 const bookItems = document.querySelectorAll('.book-item');
 bookItems.forEach(item => {
@@ -105,19 +103,26 @@ bookItems.forEach(item => {
         if (storyId) {
             console.log('Opening story:', storyId);
             
-            // Navigate to story viewer with story ID
-            window.location.href = `../stories/story-viewer.html?id=${storyId}`;
+            // Navigate to the appropriate story page
+            // Story 1 = Folktales (How the Tinguian Learned to Plant)
+            // Story 2 = Myths (Bighari: The Rainbow Goddess) 
+            // Story 3 = Fables (The Butterfly & The Caterpillar)
+            
+            if (storyId === '1') {
+                window.location.href = 'pages/stories/folktales.html';
+            } else if (storyId === '2') {
+                window.location.href = 'pages/stories/myths.html';
+            } else if (storyId === '3') {
+                window.location.href = 'pages/stories/fables.html';
+            } else if (storyId === '4') {
+                // Additional stories - add more as needed
+                window.location.href = 'pages/stories/story-4.html';
+            } else if (storyId === '5') {
+                window.location.href = 'pages/stories/story-5.html';
+            } else {
+                alert(`Story ${storyId} page not created yet`);
+            }
         }
-    });
-    
-    // Add hover effect
-    item.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-5px)';
-        this.style.transition = 'transform 0.3s ease';
-    });
-    
-    item.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0)';
     });
 });
 
