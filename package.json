@@ -1,21 +1,67 @@
 {
   "name": "vocabventure",
   "version": "1.0.0",
-  "description": "",
+  "description": "VocabVenture - Interactive Vocabulary Learning App",
   "main": "index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build:web": "node build.js",
+    "build:electron": "electron-builder",
+    "sync": "npm run build:web && npx cap sync",
+    "android": "npm run sync && npx cap open android",
+    "capacitor:add": "npx cap add android",
+    "capacitor:sync": "npx cap sync"
+  },
+  "build": {
+    "appId": "com.vocabventure.app",
+    "productName": "VocabVenture",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "app/**/*",
+      "index.js",
+      "package.json",
+      "!www/**/*",
+      "!android/**/*",
+      "!node_modules/**/*",
+      "node_modules/better-sqlite3/**/*"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "app/assets/icon.png"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "app/assets/icon.png"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "app/assets/icon.png"
+    }
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@capacitor/cli": "^6.2.1",
     "@electron/rebuild": "^4.0.3",
     "electron": "^40.4.0",
+    "electron-builder": "^26.7.0",
     "electron-rebuild": "^3.2.9",
     "electron-reload": "^2.0.0-alpha.1"
   },
   "dependencies": {
+    "@capacitor-community/sqlite": "^6.0.2",
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/core": "^6.2.1",
     "better-sqlite3": "^12.6.2"
   }
 }

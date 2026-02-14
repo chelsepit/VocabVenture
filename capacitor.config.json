@@ -1,0 +1,9 @@
+{
+  "appId": "com.vocabventure.app",
+  "appName": "VocabVenture",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}
