@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">VocabVenture</string>
     <string name="title_activity_main">VocabVenture</string>
-    <string name="package_name">com.fourloop.vocabventure</string>
-    <string name="custom_url_scheme">com.fourloop.vocabventure</string>
+    <string name="package_name">com.vocabventure.app</string>
+    <string name="custom_url_scheme">com.vocabventure.app</string>
 </resources>
