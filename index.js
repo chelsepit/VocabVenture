@@ -22,8 +22,8 @@ function createWindow() {
         }
     });
 
-    // // Open DevTools (remove this in production)
-    mainWindow.webContents.openDevTools();
+     // Open DevTools (remove this in production)
+    // mainWindow.webContents.openDevTools();
     
     // Load welcome page initially
     mainWindow.loadFile('app/pages/dashboard/welcome.html');
