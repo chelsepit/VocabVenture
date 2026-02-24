@@ -49,11 +49,9 @@
         ],
 
         // game-result.css → url('../assets/images/backgrounds/game-bg.svg')
+        // Badge images are loaded dynamically by JavaScript, not immediately
         'game-result': [
             '../../assets/images/backgrounds/game-bg.svg',
-            '../../assets/images/badges/gold-badge.png',
-            '../../assets/images/badges/silver-badge.png',
-            '../../assets/images/badges/bronze-badge.png',
         ],
 
         // decode-the-world.css / decode-the-world-game.css → url('../assets/images/backgrounds/game-bg.svg')
