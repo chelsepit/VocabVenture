@@ -197,6 +197,18 @@ body {
     animation: slideUp 0.4s ease;
 }
 
+.register-card {
+    background: rgb(246, 237, 210);
+    border-radius: clamp(14px, 3vw, 16px);
+    padding: clamp(14px, 3vw, 18px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    animation: slideUp 0.4s ease;
+}
+
+
+
+
 @keyframes slideUp {
     from {
         opacity: 0;

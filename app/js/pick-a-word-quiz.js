@@ -108,6 +108,10 @@ async function loadQuizData() {
 }
 
 function startPicAWord() {
+  // Lazy load quiz images when quiz starts (not on page load)
+  if (window.lazyLoadPickAWordImages) {
+    window.lazyLoadPickAWordImages();
+  }
   document.getElementById("quizIntro").style.display = "none";
   document.getElementById("quizQuestion").style.display = "block";
   loadQuestion(0);
@@ -118,15 +122,39 @@ function loadQuestion(index) {
   currentQuestionIndex = index;
   const question = quizData.questions[index];
   document.getElementById("currentQuestion").textContent = index + 1;
+
   const correctWord = question.options[question.correctAnswer];
   const storyId = getStoryId();
-  const imagePath = `../../assets/images/pick-a-word/story${storyId}-pick-a-word/${correctWord.toLowerCase().replace(/\s+/g, "")}.png`;
+
+  // Build image path — filename is the correct answer word, lowercased, spaces removed
+  const imageFilename = correctWord.toLowerCase().replace(/\s+/g, "");
+  const imagePath = `../../assets/images/pick-a-word/story${storyId}-pick-a-word/${imageFilename}.png`;
+
   const imgElement = document.getElementById("mainQuizImage");
-  imgElement.src = imagePath;
-  imgElement.onerror = function() {
+
+  // ✅ Clear previous src first so the browser always fires onload/onerror
+  imgElement.src = '';
+
+  // ✅ Log the exact path so you can verify it in DevTools console
+  console.log(`🖼️ Loading quiz image [Q${index + 1}]: ${imagePath}`);
+  console.log(`   Correct word: "${correctWord}" → filename: "${imageFilename}.png"`);
+
+  imgElement.onerror = function () {
+    // ✅ Log the failed path so you know exactly what to rename/move
+    console.error(`❌ Image not found: ${imagePath}`);
+    console.error(`   Check that this file exists: assets/images/pick-a-word/story${storyId}-pick-a-word/${imageFilename}.png`);
+    this.onerror = null; // Prevent infinite loop if fallback also fails
     this.src = '../../assets/images/icons/question-mark-icon.svg';
   };
+
+  imgElement.onload = function () {
+    console.log(`✅ Image loaded successfully: ${imagePath}`);
+  };
+
+  imgElement.src = imagePath;
+
   document.getElementById("questionText").innerHTML = question.question;
+
   const buttonsContainer = document.getElementById("answerButtons");
   buttonsContainer.innerHTML = "";
   question.options.forEach((option, idx) => {
@@ -136,6 +164,7 @@ function loadQuestion(index) {
     button.onclick = () => checkAnswer(idx);
     buttonsContainer.appendChild(button);
   });
+
   document.getElementById("feedbackMessage").style.display = "none";
 }
 
@@ -180,9 +209,9 @@ function showFeedback(isCorrect, explanation) {
   if (isCorrect) {
     feedbackElement.innerHTML = `
             <div style="color: #ffffff;">
-                <div style="font-size: clamp(1.8rem, 3.5vh, 1.8rem);; margin-bottom: 10px;">✓</div>
-                <div style="font-size: clamp(1.5rem, 3.5vh, 1.8rem);;">Correct!</div>
-                <div style="font-size: clamp(1.3rem, 3.5vh, 1.8rem);; margin-top: 10px; font-weight: normal; opacity: 0.9;">
+                <div style="font-size: clamp(1.8rem, 3.5vh, 1.8rem); margin-bottom: 10px;">✓</div>
+                <div style="font-size: clamp(1.5rem, 3.5vh, 1.8rem);">Correct!</div>
+                <div style="font-size: clamp(1.3rem, 3.5vh, 1.8rem); margin-top: 10px; font-weight: normal; opacity: 0.9;">
                     ${explanation}
                 </div>
             </div>
