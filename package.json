@@ -1,7 +1,7 @@
 {
   "name": "vocabventure",
   "version": "1.0.0",
-  "description": "VocabVenture Desktop and Android App",
+  "description": "VocabVenture Desktop App",
   "main": "index.js",
   "scripts": {
     "start": "electron .",
@@ -9,8 +9,6 @@
     "build:web": "node build.js",
     "prebuild:electron": "rd /s /q dist-electron 2>nul || true",
     "build:electron": "electron-builder",
-    "cap:sync": "npx cap sync",
-    "cap:open": "npx cap open android",
     "postinstall": "electron-builder install-app-deps"
   },
   "keywords": [],
@@ -19,15 +17,10 @@
 
   "devDependencies": {
     "electron": "^40.4.0",
-    "electron-builder": "^26.7.0",
-    "@capacitor/cli": "^8.1.0"
+    "electron-builder": "^26.7.0"
   },
 
   "dependencies": {
-    "@capacitor/core": "^8.1.0",
-    "@capacitor/android": "^8.1.0",
-    "@capacitor/ios": "^8.1.0",
-    "@capacitor-community/sqlite": "^8.0.0",
     "better-sqlite3": "^12.6.2"
   },
 
