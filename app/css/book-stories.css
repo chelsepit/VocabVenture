@@ -1,0 +1,467 @@
+/* ========================================
+   BOOK/STORY PAGES - Mobile-First Responsive
+   REFACTORED FOR FULL MOBILE APP RESPONSIVENESS
+   With Responsive Video Handling
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* ========================================
+   RESPONSIVE VIDEO BACKGROUND
+   ======================================== */
+
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    background-color: #000;
+}
+
+.video-background video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    aspect-ratio: 16 / 9;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+/* ========================================
+   CONTENT OVERLAY (Mobile-First)
+   ======================================== */
+
+.content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    color: #000000;
+    font-family: 'Nunito', sans-serif;
+    width: clamp(92%, 95vw, 98%);
+    max-width: 1000px;
+    padding: clamp(16px, 4vw, 40px);
+    font-size: clamp(1.6rem, 5.5vw, 3rem);
+    border-radius: clamp(18px, 4vw, 24px);
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    line-height: 1.8;
+    max-height: clamp(85vh, 80vh, 80vh);
+    overflow-y: auto;
+    opacity: 0;  
+    transition: opacity 0.8s ease-out, transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);  
+}
+
+.content h1,
+.content h2,
+.content h3 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    margin-bottom: clamp(10px, 2.5vw, 12px);
+    font-size: clamp(1.8rem, 6.5vw, 3.6rem);
+}
+
+.content p {
+    margin-bottom: clamp(10px, 2.5vw, 12px);
+    font-size: clamp(1.6rem, 5.5vw, 3rem);
+}
+
+.content p:last-child {
+    margin-bottom: 0;
+}
+
+/* ========================================
+   RESPONSIVE VIDEO ASPECT RATIO HANDLING
+   ======================================== */
+
+@media (aspect-ratio: 16/9) {
+    .video-background video {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-aspect-ratio: 16/9) {
+    .video-background video {
+        width: auto;
+        height: 100%;
+    }
+}
+
+@media (min-aspect-ratio: 16/9) {
+    .video-background video {
+        width: 100%;
+        height: auto;
+    }
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Small Mobile: 320px - 480px */
+@media (max-width: 480px) {
+    .content {
+        width: 94%;
+        padding: clamp(14px, 3.5vw, 18px);
+        border-radius: 16px;
+        font-size: clamp(1.4rem, 5vw, 2rem);
+        max-height: 88vh;
+    }
+    
+    .content h1,
+    .content h2 {
+        margin-bottom: 8px;
+        font-size: clamp(1.6rem, 6vw, 2.2rem);
+    }
+    
+    .content p {
+        margin-bottom: 8px;
+        font-size: clamp(1.4rem, 5vw, 2rem);
+        line-height: 1.6;
+    }
+}
+
+/* Large Mobile: 481px - 767px */
+@media (min-width: 481px) {
+    .content {
+        max-width: 700px;
+        padding: clamp(20px, 4vw, 24px);
+        border-radius: 24px;
+        font-size: clamp(2rem, 5.5vw, 2.4rem);
+    }
+    
+    .content h1,
+    .content h2 {
+        margin-bottom: 12px;
+        font-size: clamp(2.2rem, 6vw, 2.8rem);
+    }
+    
+    .content p {
+        margin-bottom: 12px;
+        font-size: clamp(2rem, 5.5vw, 2.4rem);
+    }
+}
+
+/* Tablet Portrait: 768px - 1023px */
+@media (min-width: 768px) {
+    .content {
+        width: 95%;
+        max-width: 800px;
+        padding: 24px;
+        border-radius: 28px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+        max-height: 78vh;
+        font-size: 2.6rem;
+    }
+    
+    .content h1,
+    .content h2 {
+        margin-bottom: 14px;
+        font-size: 3.2rem;
+    }
+    
+    .content p {
+        margin-bottom: 12px;
+        line-height: 1.7;
+        font-size: 2.6rem;
+    }
+}
+
+/* Tablet Landscape: 1024px - 1279px */
+@media (min-width: 1024px) {
+    .content {
+        max-width: 700px;
+        padding: 28px;
+        border-radius: 32px;
+        font-size: 2.8rem;
+    }
+    
+    .content h1,
+    .content h2 {
+        margin-bottom: 16px;
+        font-size: 3.4rem;
+    }
+    
+    .content p {
+        margin-bottom: 14px;
+        font-size: 2.8rem;
+    }
+}
+
+/* Laptop: 1280px - 1439px */
+@media (min-width: 1280px) {
+    .content {
+        max-width: 1100px;
+        padding: 36px;
+        border-radius: 36px;
+        font-size: 3rem;
+    }
+    
+    .content h1,
+    .content h2 {
+        margin-bottom: 18px;
+        font-size: 3.6rem;
+    }
+    
+    .content p {
+        margin-bottom: 14px;
+        line-height: 1.8;
+        font-size: 3rem;
+    }
+}
+
+/* Desktop: 1440px+ */
+@media (min-width: 1440px) {
+    .content {
+        max-width: 1200px;
+        padding: 44px;
+        font-size: 3.2rem;
+    }
+    
+    .content h1,
+    .content h2 {
+        font-size: 3.8rem;
+    }
+    
+    .content p {
+        font-size: 3.2rem;
+    }
+}
+
+/* ========================================
+   LANDSCAPE MODE OPTIMIZATION
+   ======================================== */
+
+@media (max-height: 700px) and (orientation: landscape) {
+    .content {
+        max-height: 92vh;
+        padding: clamp(12px, 2.5vw, 18px) clamp(18px, 3.5vw, 24px);
+        font-size: clamp(1.6rem, 4vw, 2rem);
+        width: 96%;
+    }
+    
+    .content h1,
+    .content h2 {
+        margin-bottom: 8px;
+        font-size: clamp(1.8rem, 5vw, 2.4rem);
+    }
+    
+    .content p {
+        margin-bottom: 8px;
+        line-height: 1.5;
+        font-size: clamp(1.6rem, 4vw, 2rem);
+    }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .content {
+        padding: 10px 16px;
+        max-height: 94vh;
+        font-size: 1.4rem;
+    }
+    
+    .content h1,
+    .content h2 {
+        margin-bottom: 6px;
+        font-size: 1.8rem;
+    }
+    
+    .content p {
+        margin-bottom: 6px;
+        line-height: 1.4;
+        font-size: 1.4rem;
+    }
+}
+
+/* ========================================
+   STORY VIEWER ANIMATIONS
+   ======================================== */
+
+@keyframes gentleFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes subtleBounce {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes waveIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9) rotateX(20deg);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translateY(-10px) scale(1.02) rotateX(-5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0deg);
+    }
+}
+
+@keyframes breathe {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.01);
+    }
+}
+
+@keyframes textGlow {
+    0%, 100% {
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+        text-shadow: 0 2px 20px rgba(255, 215, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+#storyText {
+    transform-origin: center;
+}
+
+.interactive-word {
+    transition: all 0.3s ease;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+}
+
+.interactive-word:hover {
+    transform: translateY(-3px) scale(1.05);
+    color: #FF6B35;
+    text-shadow: 0 4px 8px rgba(255, 107, 53, 0.4);
+}
+
+.interactive-word::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #FF6B35;
+    transition: width 0.3s ease;
+}
+
+.interactive-word:hover::after {
+    width: 100%;
+}
+
+.gentle-float {
+    animation: gentleFloat 3s ease-in-out infinite;
+}
+
+.subtle-bounce {
+    animation: subtleBounce 2s ease-in-out infinite;
+}
+
+.breathe-effect {
+    animation: breathe 4s ease-in-out infinite;
+}
+
+.wave-in {
+    animation: waveIn 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.text-glow {
+    animation: textGlow 2s ease-in-out infinite;
+}
+
+/* ========================================
+   NAVIGATION BUTTONS
+   ======================================== */
+
+.nav-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #FF6B35;
+    padding: clamp(10px, 2.5vw, 18px) clamp(20px, 4.5vw, 36px);
+    border-radius: clamp(12px, 2.5vw, 15px);
+    font-weight: bold;
+    cursor: pointer;
+    font-size: clamp(1.1rem, 4vw, 1.8rem);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+}
+
+.nav-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.nav-btn:active {
+    transform: scale(0.95);
+}
+
+#nextBtn {
+    background: #FFD93D;
+}
+
+/* ========================================
+   PROGRESS INDICATOR
+   ======================================== */
+
+.progress-indicator {
+    opacity: 0;
+    position: fixed;
+    top: clamp(80px, 15vh, 100px);
+    right: clamp(20px, 5vw, 30px);
+    background: rgba(255, 255, 255, 0.9);
+    padding: clamp(12px, 2.5vw, 15px) clamp(16px, 3.5vw, 20px);
+    border-radius: clamp(12px, 2.5vw, 15px);
+    z-index: 1000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    color: #6e4324;
+    font-size: clamp(0.7rem, 2vw, 1rem);
+}

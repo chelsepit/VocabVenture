@@ -1,0 +1,93 @@
+# Dependencies
+node_modules/
+android/app/build/
+android/.gradle/
+android/local.properties
+*.keystore
+*.jks
+
+# Gradle
+.gradle/
+**/build/
+!gradle-wrapper.jar
+
+# Don't ignore gradle wrapper
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# Database files (contains user data)
+database/
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Electron build output
+dist/
+dist-electron/
+build/
+out/
+release/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Cache
+.cache/
+.eslintcache
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# Optional: Uncomment if you don't want to commit media assets
+# (If assets are large, use Git LFS or host externally)
+# assets/videos/
+# assets/audio/
+
+# Build artifacts
+*.exe
+*.dmg
+*.app
+*.deb
+*.rpm
+*.zip
+*.tar.gz
+
+# Windows installer files
+*.msi
+*.msix
+
+# Mac specific
+*.app/
+
+# Electron builder
+.webpack/

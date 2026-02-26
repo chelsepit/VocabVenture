@@ -1,0 +1,217 @@
+{
+  "genres": [
+    "folktales",
+    "myths",
+    "fables",
+    "short-stories",
+    "legends"
+  ],
+
+  "stories": [
+    {
+      "id": 1,
+      "title": "How the Tinguian Learned to Plant",
+      "genre": "folktales",
+      "culture": "Philippine",
+      "difficulty": "beginner",
+      "coverImage": "assets/images/books/folktales/how-the-tinguian-learned-to-plant.png",
+      "isActive": true,
+      "dataFile": "stories/story-1.json"
+    },
+    {
+      "id": 4,
+      "title": "The Grasshopper And The Ant",
+      "genre": "folktales",
+      "coverImage": "assets/images/books/folktales/the-ant-and-the-grasshopper.png",
+      "isActive": false
+    },
+    {
+      "id": 5,
+      "title": "Why The Carabao Is Strong",
+      "genre": "folktales",
+      "coverImage": "assets/images/books/folktales/why-the-carabao-is-strong.png",
+      "isActive": false
+    },
+    {
+      "id": 6,
+      "title": "The Lion and The Mouse",
+      "genre": "folktales",
+      "coverImage": "assets/images/books/folktales/the-lion-and-the-mouse.svg",
+      "isActive": false
+    },
+    {
+      "id": 13,
+      "title": "The Monkey and The Turtle",
+      "genre": "folktales",
+      "coverImage": "assets/images/books/folktales/the-monkey-and-the-turtle.png",
+      "isActive": false
+    },
+
+    {
+      "id": 2,
+      "title": "The Origin of the Rainbow",
+      "genre": "myths",
+      "coverImage": "assets/images/books/myths/the-legend-of-the-first-rainbow.svg",
+      "isActive": true,
+      "dataFile": "stories/story-2.json"
+    },
+    {
+      "id": 9,
+      "title": "The Sun And The Moon",
+      "genre": "myths",
+      "coverImage": "assets/images/books/myths/the-sun-and-the-moon.svg",
+      "isActive": false
+    },
+    {
+      "id": 10,
+      "title": "Bakunawa And The Seven Moons",
+      "genre": "myths",
+      "coverImage": "assets/images/books/myths/bacunawa.svg",
+      "isActive": false
+    },
+    {
+      "id": 11,
+      "title": "The Guardians Of Wawa Dam",
+      "genre": "myths",
+      "coverImage": "assets/images/books/myths/the-guardians-of-wawa.svg",
+      "isActive": false
+    },
+    {
+      "id": 12,
+      "title": "Apo: A Giant Guardian",
+      "genre": "myths",
+      "coverImage": "assets/images/books/myths/apo-a-giant-guardian.svg",
+      "isActive": false
+    },
+
+    {
+      "id": 3,
+      "title": "The Butterfly & The Caterpillar",
+      "genre": "fables",
+      "coverImage": "assets/images/books/fables/the-caterpillar-and-the-butterfly.svg",
+      "isActive": true,
+      "dataFile": "stories/story-3.json"
+    },
+    {
+      "id": 14,
+      "title": "Mouse and the City Mouse",
+      "genre": "fables",
+      "coverImage": "assets/images/books/fables/city-mouse-country-mouse.svg",
+      "isActive": false
+    },
+    {
+      "id": 15,
+      "title": "The Tortoise and the Birds",
+      "genre": "fables",
+      "coverImage": "assets/images/books/fables/the-tortoise-and-the-birds.svg",
+      "isActive": false
+    },
+    {
+      "id": 16,
+      "title": "The Crow and the Pitcher",
+      "genre": "fables",
+      "coverImage": "assets/images/books/fables/the-grow-and-the-pitcher.svg",
+      "isActive": false
+    },
+    {
+      "id": 17,
+      "title": "The Ant and the Grasshopper",
+      "genre": "fables",
+      "coverImage": "assets/images/books/fables/the-ant-and-the-grasshopper.svg",
+      "isActive": false
+    },
+    {
+      "id": 18,
+      "title": "The Honest Woodman",
+      "genre": "fables",
+      "coverImage": "assets/images/books/fables/the-honest-woodcutter.svg",
+      "isActive": false
+    },
+
+    {
+      "id": 19,
+      "title": "The Little Red Hen",
+      "genre": "short-stories",
+      "coverImage": "assets/images/books/short-stories/the-little-red-hen.svg",
+      "isActive": false
+    },
+    {
+      "id": 20,
+      "title": "A Brave Little Girl",
+      "genre": "short-stories",
+      "coverImage": "assets/images/books/short-stories/my-little-brave-girl.svg",
+      "isActive": false
+    },
+    {
+      "id": 21,
+      "title": "Careless Clown",
+      "genre": "short-stories",
+      "coverImage": "assets/images/books/short-stories/careless-clown.svg",
+      "isActive": false
+    },
+    {
+      "id": 22,
+      "title": "Pappy, The Paper Bag",
+      "genre": "short-stories",
+      "coverImage": "assets/images/books/short-stories/pappy-the-paper.svg",
+      "isActive": false
+    },
+    {
+      "id": 23,
+      "title": "The Carrot Seed",
+      "genre": "short-stories",
+      "coverImage": "assets/images/books/short-stories/the-carrot-seed.svg",
+      "isActive": false
+    },
+    {
+      "id": 24,
+      "title": "The Brave Duck",
+      "genre": "short-stories",
+      "coverImage": "assets/images/books/short-stories/the-brave-little-duck.svg",
+      "isActive": false
+    },
+
+    {
+      "id": 25,
+      "title": "The Legend of the Mango Tree",
+      "genre": "legends",
+      "coverImage": "assets/images/books/legends/legend-of-the-mango.svg",
+      "isActive": false
+    },
+    {
+      "id": 26,
+      "title": "The Legend of Pineapple",
+      "genre": "legends",
+      "coverImage": "assets/images/books/legends/the-legend-of-the-pineapple.svg",
+      "isActive": false
+    },
+    {
+      "id": 27,
+      "title": "The Legend of Mayon Volcano",
+      "genre": "legends",
+      "coverImage": "assets/images/books/legends/the-legend-of-mayon-volcano.svg",
+      "isActive": false
+    },
+    {
+      "id": 28,
+      "title": "Si Maria Makiling",
+      "genre": "legends",
+      "coverImage": "assets/images/books/legends/maria-makiling.svg",
+      "isActive": false
+    },
+    {
+      "id": 29,
+      "title": "The Legend of Chocolate Hills",
+      "genre": "legends",
+      "coverImage": "assets/images/books/legends/the-legend-of-chocolate-hills.svg",
+      "isActive": false
+    },
+    {
+      "id": 30,
+      "title": "The Legend of Sarimanok",
+      "genre": "legends",
+      "coverImage": "assets/images/books/legends/ang-sarimanok.svg",
+      "isActive": false 
+    }
+  ]
+}

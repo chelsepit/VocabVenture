@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pic-a-Word Quiz - VocabVenture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="../../js/preloader.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/pick-a-world.css">
+    <link rel="stylesheet" href="../../css/font.css">
+    <link rel="stylesheet" href="../../css/components.css">
+</head>
+
+<body>
+    <div class="finish-background"></div>
+
+    <div class="components">
+        <div class="left-group">
+            <div id="home-container"></div>
+            <div id="settings-container"></div>
+            <div id="burger-container"></div>
+        </div>
+    </div>
+
+    <!-- Resume Modal -->
+    <div id="resume-modal-container"></div>
+
+    <!-- Intro Screen -->
+    <div id="quizIntro" class="finish-content">
+        <div class="title-header">
+            Pic-a-Word!
+        </div>
+
+        <div class="progress-comment">
+            Complete the sentence by choosing the correct word.<br>
+            <em>Let's start your world adventure</em>
+        </div>
+        
+        <div class="finish-button">
+            <button class="start-button" onclick="startPicAWord()">START</button>
+        </div>
+    </div>
+
+    <!-- Quiz Question Screen (hidden initially) -->
+    <div id="quizQuestion" class="finish-content" style="display: none;">
+        <div class="title-header">
+            Pic-a-Word!
+        </div>
+
+        <div style="text-align: center; margin-bottom: 10px;">
+            <span style="font-family: 'Nunito', sans-serif; font-weight: 700; color: white; font-size: 1.5rem;">
+                Question <span id="currentQuestion">1</span> / <span id="totalQuestions">5</span>
+            </span>
+        </div>
+
+        <div class="image-display-area">
+            <div class="image-bubble">
+                <img id="mainQuizImage" src="" alt="Quiz Image" class="main-quiz-image">
+            </div>
+        </div>
+
+        <div class="progress-comment">
+            <div id="questionText">
+                </div>
+        </div>
+        
+        <div class="finish-button" id="answerButtons">
+            </div>
+
+        <div id="feedbackMessage" style="display: none; margin-top: 20px; padding: 20px; border-radius: 15px; text-align: center; font-size: 1.2rem; font-weight: bold;">
+        </div>
+    </div>
+
+    <script>
+        function loadComponent(elementId, filePath) {
+            fetch(filePath)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById(elementId).innerHTML = data;
+                    if (window.initializeComponents) {
+                        window.initializeComponents();
+                    }
+                })
+                .catch(err => console.error('Error loading component:', err));
+        }
+      loadComponent('home-container', '../components/home-button.html');
+        loadComponent('settings-container', '../components/settings-menu.html');
+        loadComponent('burger-container', '../components/burger-nav.html');
+      //  loadComponent('speak-container', '../components/speak-button.html');
+        loadComponent('resume-modal-container', '../components/resume-modal.html');
+    </script>
+
+    <script src="../../js/components.js"></script>
+    <script src="../../js/pick-a-word-quiz.js"></script>
+</body>
+
+</html>

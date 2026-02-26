@@ -1,0 +1,388 @@
+/* ========================================
+   RESPONSIVE UTILITY CLASSES - REFACTORED
+   FULL MOBILE RESPONSIVENESS
+   Mobile-First Responsive Design Utilities
+   ======================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+/* DISPLAY UTILITIES */
+
+.hidden-mobile {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .hidden-mobile {
+        display: block;
+    }
+}
+
+.hidden-tablet {
+    display: block;
+}
+
+@media (min-width: 768px) {
+    .hidden-tablet {
+        display: none;
+    }
+}
+
+.hidden-desktop {
+    display: block;
+}
+
+@media (min-width: 1024px) {
+    .hidden-desktop {
+        display: none;
+    }
+}
+
+.show-desktop {
+    display: none;
+}
+
+@media (min-width: 1024px) {
+    .show-desktop {
+        display: block;
+    }
+}
+
+/* RESPONSIVE SPACING */
+
+.p-responsive { padding: clamp(12px, 3vw, 16px); }
+.px-responsive { padding-left: clamp(12px, 3vw, 16px); padding-right: clamp(12px, 3vw, 16px); }
+.py-responsive { padding-top: clamp(12px, 3vw, 16px); padding-bottom: clamp(12px, 3vw, 16px); }
+
+.m-responsive { margin: clamp(12px, 3vw, 16px); }
+.mx-responsive { margin-left: clamp(12px, 3vw, 16px); margin-right: clamp(12px, 3vw, 16px); }
+.my-responsive { margin-top: clamp(12px, 3vw, 16px); margin-bottom: clamp(12px, 3vw, 16px); }
+
+/* RESPONSIVE CONTAINER */
+
+.container-responsive {
+    width: 100%;
+    max-width: 100%;
+    padding: clamp(12px, 3vw, 16px);
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .container-responsive {
+        max-width: 750px;
+        padding: clamp(16px, 3.5vw, 20px);
+    }
+}
+
+@media (min-width: 1024px) {
+    .container-responsive {
+        max-width: 1000px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .container-responsive {
+        max-width: 1200px;
+    }
+}
+
+/* RESPONSIVE TEXT */
+
+.text-responsive-sm { font-size: clamp(12px, 3vw, 14px); }
+.text-responsive-base { font-size: clamp(14px, 3.5vw, 16px); }
+.text-responsive-lg { font-size: clamp(16px, 4vw, 18px); }
+.text-responsive-xl { font-size: clamp(18px, 4.5vw, 20px); }
+.text-responsive-2xl { font-size: clamp(20px, 5vw, 24px); }
+
+/* RESPONSIVE GRID UTILITIES */
+
+.grid-auto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(clamp(220px, 45vw, 250px), 1fr));
+    gap: clamp(12px, 3vw, 20px);
+}
+
+.grid-auto-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(clamp(260px, 50vw, 300px), 1fr));
+    gap: clamp(12px, 3vw, 20px);
+}
+
+.grid-auto-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(clamp(240px, 48vw, 280px), 1fr));
+    gap: clamp(12px, 3vw, 20px);
+}
+
+.grid-2-responsive {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(12px, 3vw, 16px);
+}
+
+@media (min-width: 481px) {
+    .grid-2-responsive {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.grid-3-responsive {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(12px, 3vw, 16px);
+}
+
+@media (min-width: 768px) {
+    .grid-3-responsive {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid-3-responsive {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.grid-4-responsive {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(12px, 3vw, 16px);
+}
+
+@media (min-width: 481px) {
+    .grid-4-responsive {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .grid-4-responsive {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid-4-responsive {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* RESPONSIVE FLEXBOX */
+
+.flex-responsive {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 3vw, 16px);
+}
+
+@media (min-width: 768px) {
+    .flex-responsive {
+        flex-direction: row;
+    }
+}
+
+.flex-center-responsive {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(12px, 3vw, 16px);
+}
+
+@media (min-width: 768px) {
+    .flex-center-responsive {
+        flex-direction: row;
+    }
+}
+
+.flex-between-responsive {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: clamp(12px, 3vw, 16px);
+}
+
+@media (min-width: 768px) {
+    .flex-between-responsive {
+        flex-direction: row;
+    }
+}
+
+/* RESPONSIVE WIDTH */
+
+.w-responsive {
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .w-responsive {
+        width: 90%;
+    }
+}
+
+@media (min-width: 1280px) {
+    .w-responsive {
+        width: 85%;
+    }
+}
+
+/* RESPONSIVE MAX-WIDTH */
+
+.max-w-mobile {
+    max-width: 480px;
+}
+
+.max-w-tablet {
+    max-width: 768px;
+}
+
+.max-w-desktop {
+    max-width: 1200px;
+}
+
+.max-w-xl {
+    max-width: 1400px;
+}
+
+/* RESPONSIVE IMAGES & MEDIA */
+
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.aspect-ratio-16-9 {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+
+.aspect-ratio-16-9 > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.aspect-ratio-4-3 {
+    position: relative;
+    padding-bottom: 75%;
+    height: 0;
+    overflow: hidden;
+}
+
+.aspect-ratio-4-3 > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.aspect-ratio-1-1 {
+    position: relative;
+    padding-bottom: 100%;
+    height: 0;
+    overflow: hidden;
+}
+
+.aspect-ratio-1-1 > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* RESPONSIVE TYPOGRAPHY */
+
+.h-responsive-xl {
+    font-size: clamp(24px, 6vw, 48px);
+    line-height: 1.2;
+}
+
+.h-responsive-lg {
+    font-size: clamp(20px, 5vw, 40px);
+    line-height: 1.3;
+}
+
+.lead-responsive {
+    font-size: clamp(14px, 3.5vw, 20px);
+    line-height: 1.6;
+}
+
+/* RESPONSIVE SECTION PADDING */
+
+.section-responsive {
+    padding: clamp(12px, 3vw, 16px);
+}
+
+@media (min-width: 768px) {
+    .section-responsive {
+        padding: clamp(20px, 4vw, 32px);
+    }
+}
+
+/* RESPONSIVE GAP UTILITIES */
+
+.gap-responsive {
+    gap: clamp(12px, 3vw, 16px);
+}
+
+@media (min-width: 768px) {
+    .gap-responsive {
+        gap: clamp(16px, 3.5vw, 20px);
+    }
+}
+
+/* RESPONSIVE BORDERS & RADIUS */
+
+.rounded-responsive {
+    border-radius: clamp(10px, 2.5vw, 20px);
+}
+
+/* RESPONSIVE SHADOWS */
+
+.shadow-responsive {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+    .shadow-responsive {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+}
+
+@media (min-width: 1280px) {
+    .shadow-responsive {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* LANDSCAPE MODE UTILITIES */
+
+.hidden-landscape-sm {
+    display: block;
+}
+
+@media (max-height: 700px) and (orientation: landscape) {
+    .hidden-landscape-sm {
+        display: none;
+    }
+}
+
+.show-landscape-sm {
+    display: none;
+}
+
+@media (max-height: 700px) and (orientation: landscape) {
+    .show-landscape-sm {
+        display: block;
+    }
+}
